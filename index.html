@@ -3,464 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Aboutness Project</title>
+    <title>TAP Query Frontend</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 20px;
-            background-color: #f4f7f6;
-            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         .container {
-            max-width: 960px;
-            margin: 0 auto;
-            background-color: #fff;
+            background-color: white;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
         }
         h1 {
-            color: #2c3e50;
             text-align: center;
-            margin-bottom: 30px;
-        }
-        .search-area {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .search-input-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        #search-query {
-            flex-grow: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1.1em;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-        #search-button {
-            padding: 12px 25px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #search-button:hover {
-            background-color: #0056b3;
-        }
-        .search-type {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        .search-type label {
-            font-size: 1em;
-            color: #555;
-            cursor: pointer;
-        }
-        .results-area {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-        .result-item {
-            background-color: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease;
-        }
-        .result-item:hover {
-            transform: translateY(-3px);
-        }
-        .result-item h3 {
-            margin-top: 0;
-            color: #007bff;
-            font-size: 1.3em;
-            margin-bottom: 8px;
-        }
-        .result-item h3 a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        .result-item h3 a:hover {
-            text-decoration: underline;
-        }
-        .result-meta {
-            font-size: 0.9em;
-            color: #777;
-            margin-bottom: 10px;
-        }
-        .aboutness-snippet {
-            font-size: 1em;
-            line-height: 1.5;
-            margin-bottom: 15px;
-            color: #444;
-        }
-        .result-actions button {
-            background-color: #f0f8ff;
-            color: #007bff;
-            border: 1px solid #007bff;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            margin-right: 10px;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-        .result-actions button:hover {
-            background-color: #007bff;
-            color: white;
-        }
-        .detailed-explanation {
-            background-color: #e6f7ff;
-            border-left: 4px solid #007bff;
-            padding: 15px;
-            margin-top: 15px;
-            font-style: italic;
             color: #333;
-            font-size: 0.95em;
+            margin-bottom: 20px;
         }
-        #reading-list-sidebar {
-            width: 280px;
-            background-color: #e2f0f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            position: fixed; /* Or absolute/sticky depending on desired behavior */
-            right: 20px;
-            top: 100px; /* Adjust as needed */
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-            display: none; /* Hidden by default */
-        }
-        #reading-list-sidebar h2 {
-            margin-top: 0;
-            color: #2c3e50;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-        }
-        #reading-list {
-            list-style: none;
-            padding: 0;
-        }
-        #reading-list li {
-            background-color: #ffffff;
-            border: 1px solid #d0e8f2;
+        textarea {
+            width: 100%;
+            height: 120px;
             padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-            color: #444;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
         }
-        #reading-list li .remove-btn {
-            background: none;
-            border: none;
-            color: #dc3545;
-            cursor: pointer;
-            font-size: 1.2em;
-            padding: 0 5px;
-        }
-        #toggle-reading-list {
-            position: fixed;
-            right: 20px;
-            top: 20px;
+        button {
+            width: 100%;
+            padding: 12px;
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 18px;
             cursor: pointer;
-            font-size: 0.9em;
-            z-index: 1000;
+            transition: background-color 0.3s;
         }
-        #toggle-reading-list:hover {
+        button:hover {
             background-color: #0056b3;
         }
-        .hidden {
-            display: none;
+        #response-area {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: #d9534f;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <button id="toggle-reading-list">Toggle Reading List</button>
-
     <div class="container">
-        <h1>The Aboutness Project</h1>
-
-        <div class="search-area">
-            <div class="search-type">
-                <label>
-                    <input type="radio" name="searchMode" value="keyword" checked> Search by Keyword/Phrase
-                </label>
-                <label>
-                    <input type="radio" name="searchMode" value="paper"> Search by Paper (DOI/Abstract)
-                </label>
-            </div>
-            <div class="search-input-group">
-                <input type="text" id="search-query" placeholder="E.g., AI for climate change adaptation policy">
-                <button id="search-button">Find Aboutness</button>
-            </div>
-        </div>
-
-        <div class="results-area" id="results-area">
-            <p id="no-results-message" class="hidden">No results yet. Try a search!</p>
-        </div>
-    </div>
-
-    <div id="reading-list-sidebar">
-        <h2>Your Reading List</h2>
-        <ul id="reading-list">
-            <li id="no-reading-list-items">No papers added yet.</li>
-        </ul>
+        <h1>Ask The Aboutness Project</h1>
+        <textarea id="query-input" placeholder="Type your question here..."></textarea>
+        <button onclick="queryBackend()">Submit Query</button>
+        <div id="response-area"></div>
     </div>
 
     <script>
-        const searchButton = document.getElementById('search-button');
-        const searchQueryInput = document.getElementById('search-query');
-        const searchModeRadios = document.querySelectorAll('input[name="searchMode"]');
-        const resultsArea = document.getElementById('results-area');
-        const noResultsMessage = document.getElementById('no-results-message');
-        const readingListSidebar = document.getElementById('reading-list-sidebar');
-        const readingListUL = document.getElementById('reading-list');
-        const noReadingListItems = document.getElementById('no-reading-list-items');
-        const toggleReadingListButton = document.getElementById('toggle-reading-list');
+        async function queryBackend() {
+            const query = document.getElementById('query-input').value.trim();
+            const responseArea = document.getElementById('response-area');
 
-        let readingList = [];
+            // Your Render backend URL for the TAP project
+            const backendUrl = "https://tap-backend-959m.onrender.com";
 
-        // Simulated Data for "AI for climate change adaptation policy"
-        const simulatedResults = [
-            {
-                id: 'paper1',
-                title: 'Machine Learning for High-Impact Weather Prediction and Disaster Preparedness',
-                authors: 'A. Smith, B. Jones, C. Lee',
-                year: 2023,
-                source: 'Journal of Climate Informatics',
-                aboutnessSnippet: 'This paper applies interpretable machine learning models to improve forecasts for extreme weather events, directly informing early warning systems and policy decisions for disaster preparedness.',
-                detailedExplanation: 'The authors delve into the challenges of integrating AI models into existing meteorological frameworks and discuss how model explainability can build trust among policymakers for proactive climate adaptation.',
-                fullTextLink: 'https://example.com/paper1.pdf'
-            },
-            {
-                id: 'paper2',
-                title: 'AI-Driven Climate Risk Assessment for Urban Infrastructure Planning',
-                authors: 'D. Garcia, E. Rodriguez',
-                year: 2022,
-                source: 'Urban Planning Quarterly',
-                aboutnessSnippet: 'Focuses on using AI to assess climate-related risks to urban infrastructure, providing critical data for long-term adaptation planning and policy formulation in vulnerable cities.',
-                detailedExplanation: 'This study utilizes satellite imagery and AI pattern recognition to identify infrastructure vulnerabilities to events like sea-level rise and extreme heat, guiding municipal policy for resilient urban development.',
-                fullTextLink: 'https://example.com/paper2.pdf'
-            },
-            {
-                id: 'paper3',
-                title: 'Policy Frameworks for AI Ethics in Climate Modeling and Intervention',
-                authors: 'F. Brown, G. White',
-                year: 2024,
-                source: 'Environmental Policy Review',
-                aboutnessSnippet: 'Examines the ethical considerations and policy frameworks necessary for responsible development and deployment of AI technologies in complex climate modeling and potential geoengineering interventions.',
-                detailedExplanation: 'The authors discuss the governance gaps and ethical dilemmas arising from the increasing power of AI in climate science, proposing new policy structures to ensure equitable and transparent decision-making.',
-                fullTextLink: 'https://example.com/paper3.pdf'
-            },
-            {
-                id: 'paper4',
-                title: 'Data-Driven Approaches to Climate Migration and Adaptation Strategies',
-                authors: 'H. Green, I. Black',
-                year: 2021,
-                source: 'Population and Environment Journal',
-                aboutnessSnippet: 'Investigates the use of large datasets and AI analytics to predict and understand patterns of climate-induced migration, informing humanitarian and governmental adaptation strategies.',
-                detailedExplanation: 'This paper uses predictive analytics to model human displacement caused by climate events, offering insights for policy makers to mitigate crises and plan for population shifts in vulnerable regions.',
-                fullTextLink: 'https://example.com/paper4.pdf'
-            }
-        ];
-
-        // Simulated Data for "Impact of Ocean Acidification on Coral Reef Ecosystems"
-        const simulatedResultsOceanAcidification = [
-            {
-                id: 'ocean1',
-                title: 'Physiological Responses of Corals to Ocean Acidification and Warming',
-                authors: 'J. Blue, K. Sea',
-                year: 2022,
-                source: 'Marine Biology Journal',
-                aboutnessSnippet: 'This study investigates the combined physiological stress of ocean acidification and rising sea temperatures on various coral species, highlighting mechanisms of resilience and vulnerability.',
-                detailedExplanation: 'The authors performed controlled laboratory experiments to measure calcification rates, metabolic changes, and gene expression in corals exposed to future ocean conditions, providing insights into their adaptive capacity.',
-                fullTextLink: 'https://example.com/ocean1.pdf'
-            },
-            {
-                id: 'ocean2',
-                title: 'Predicting Coral Bleaching Events Using Machine Learning and Satellite Data',
-                authors: 'L. Reef, M. Wave',
-                year: 2023,
-                source: 'Remote Sensing of Environment',
-                aboutnessSnippet: 'Applies machine learning to satellite imagery and oceanographic data to predict the onset and severity of coral bleaching events, aiding conservation efforts and policy responses.',
-                detailedExplanation: 'This research develops a novel AI model that integrates sea surface temperature, chlorophyll-a concentration, and ocean current data to provide early warnings for coral bleaching, allowing for targeted conservation interventions.',
-                fullTextLink: 'https://example.com/ocean2.pdf'
-            },
-            {
-                id: 'ocean3',
-                title: 'Socioeconomic Impacts of Coral Reef Degradation on Coastal Communities',
-                authors: 'N. Shore, O. Fish',
-                year: 2021,
-                source: 'Coastal Management Journal',
-                aboutnessSnippet: 'Examines the economic and social consequences of coral reef degradation (including from acidification) on local communities dependent on reef ecosystems for livelihoods and coastal protection.',
-                detailedExplanation: 'This study utilizes economic modeling and community surveys to quantify the losses in tourism, fisheries, and coastal protection services due to declining reef health, providing data for sustainable development policies.',
-                fullTextLink: 'https://example.com/ocean3.pdf'
-            }
-        ];
-
-
-        // Event listener for the main search button
-        searchButton.addEventListener('click', () => {
-            const query = searchQueryInput.value.trim();
-            const searchMode = document.querySelector('input[name="searchMode"]:checked').value;
-
-            if (query === '') {
-                alert('Please enter a query or paper details.');
+            if (!query) {
+                responseArea.textContent = "Please enter a query.";
+                responseArea.className = "error";
                 return;
             }
 
-            console.log(`Searching for: "${query}" in mode: "${searchMode}"`);
-            displayResults(query);
-        });
+            responseArea.textContent = "Thinking...";
+            responseArea.className = "loading";
 
-        // Function to display results
-        function displayResults(query) {
-            resultsArea.innerHTML = ''; // Clear previous results
-            noResultsMessage.classList.add('hidden'); // Hide no results message
-
-            let resultsToDisplay = [];
-            // Simple simulation: check query for specific phrases
-            if (query.toLowerCase().includes('ai for climate change') || query.toLowerCase().includes('perovskite')) {
-                resultsToDisplay = simulatedResults;
-            } else if (query.toLowerCase().includes('ocean acidification') || query.toLowerCase().includes('coral reef')) {
-                resultsToDisplay = simulatedResultsOceanAcidification;
-            } else {
-                resultsToDisplay = []; // No specific simulated results for other queries
-            }
-
-
-            if (resultsToDisplay.length === 0) {
-                noResultsMessage.classList.remove('hidden');
-                noResultsMessage.textContent = `No simulated results for "${query}". Try "AI for climate change adaptation policy" or "ocean acidification".`;
-                return;
-            }
-
-            resultsToDisplay.forEach(paper => {
-                const resultItem = document.createElement('div');
-                resultItem.classList.add('result-item');
-
-                resultItem.innerHTML = `
-                    <h3><a href="${paper.fullTextLink}" target="_blank">${paper.title}</a></h3>
-                    <div class="result-meta">${paper.authors} &bull; ${paper.year} &bull; ${paper.source}</div>
-                    <p class="aboutness-snippet">${paper.aboutnessSnippet}</p>
-                    <div class="result-actions">
-                        <button class="why-relevant-btn">Why Relevant?</button>
-                        <button class="find-more-like-this-btn" data-id="${paper.id}" data-title="${paper.title}">Find More Like This</button>
-                        <button class="add-to-reading-list-btn" data-id="${paper.id}" data-title="${paper.title}" data-authors="${paper.authors}">Add to Reading List</button>
-                    </div>
-                    <div class="detailed-explanation hidden">
-                        <p>${paper.detailedExplanation}</p>
-                    </div>
-                `;
-                resultsArea.appendChild(resultItem);
-            });
-
-            // Add event listeners for new buttons
-            addResultItemListeners();
-        }
-
-        function addResultItemListeners() {
-            document.querySelectorAll('.why-relevant-btn').forEach(button => {
-                button.removeEventListener('click', toggleExplanation); // Prevent duplicate listeners
-                button.addEventListener('click', toggleExplanation);
-            });
-            document.querySelectorAll('.find-more-like-this-btn').forEach(button => {
-                button.removeEventListener('click', handleFindMoreLikeThis); // Prevent duplicate listeners
-                button.addEventListener('click', handleFindMoreLikeThis);
-            });
-            document.querySelectorAll('.add-to-reading-list-btn').forEach(button => {
-                button.removeEventListener('click', handleAddToReadingList); // Prevent duplicate listeners
-                button.addEventListener('click', handleAddToReadingList);
-            });
-        }
-
-        function toggleExplanation(event) {
-            const parent = event.target.closest('.result-item');
-            const explanation = parent.querySelector('.detailed-explanation');
-            explanation.classList.toggle('hidden');
-            event.target.textContent = explanation.classList.contains('hidden') ? 'Why Relevant?' : 'Hide Explanation';
-        }
-
-        function handleFindMoreLikeThis(event) {
-            const paperId = event.target.dataset.id;
-            const paperTitle = event.target.dataset.title;
-            searchQueryInput.value = `Find papers about: "${paperTitle}"`; // Pre-fill search bar
-            // In a real app, this would trigger a new backend search using the paper's embedding
-            alert(`Simulating "Find More Like This" for: "${paperTitle}" (ID: ${paperId})\n\nThis would trigger a new semantic search based on this paper's content.`);
-            // You could also immediately call displayResults with a relevant simulated set
-            displayResults(paperTitle);
-        }
-
-        function handleAddToReadingList(event) {
-            const paperId = event.target.dataset.id;
-            const paperTitle = event.target.dataset.title;
-            const authors = event.target.dataset.authors;
-
-            if (!readingList.some(item => item.id === paperId)) {
-                readingList.push({ id: paperId, title: paperTitle, authors: authors });
-                updateReadingListUI();
-                alert(`"${paperTitle}" added to reading list!`);
-            } else {
-                alert(`"${paperTitle}" is already in your reading list.`);
-            }
-        }
-
-        function updateReadingListUI() {
-            readingListUL.innerHTML = ''; // Clear current list
-            if (readingList.length === 0) {
-                const li = document.createElement('li');
-                li.id = 'no-reading-list-items';
-                li.textContent = 'No papers added yet.';
-                readingListUL.appendChild(li);
-            } else {
-                readingList.forEach(item => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span>${item.title}</span>
-                        <button class="remove-btn" data-id="${item.id}">&times;</button>
-                    `;
-                    readingListUL.appendChild(li);
+            try {
+                const response = await fetch(`${backendUrl}/query`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: query })
                 });
-                document.querySelectorAll('#reading-list .remove-btn').forEach(button => {
-                    button.addEventListener('click', handleRemoveFromReadingList);
-                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.response) {
+                        responseArea.textContent = data.response;
+                        responseArea.className = "";
+                    } else {
+                        responseArea.textContent = "Error: Invalid response from backend.";
+                        responseArea.className = "error";
+                        console.error("Backend response:", data);
+                    }
+                } else {
+                    const errorMsg = data.error || `HTTP Error: ${response.status}`;
+                    responseArea.textContent = `Error from server: ${errorMsg}`;
+                    responseArea.className = "error";
+                    console.error("Server error:", data);
+                }
+            } catch (error) {
+                responseArea.textContent = "Network error: Failed to connect to the backend.";
+                responseArea.className = "error";
+                console.error("Fetch error:", error);
             }
-            if (noReadingListItems) noReadingListItems.classList.add('hidden'); // Hide placeholder if items exist
         }
-
-        function handleRemoveFromReadingList(event) {
-            const paperIdToRemove = event.target.dataset.id;
-            readingList = readingList.filter(item => item.id !== paperIdToRemove);
-            updateReadingListUI();
-        }
-
-        toggleReadingListButton.addEventListener('click', () => {
-            readingListSidebar.style.display = readingListSidebar.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Initialize reading list UI on load
-        updateReadingListUI();
     </script>
 </body>
 </html>
