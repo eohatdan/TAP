@@ -133,15 +133,16 @@
     <div class="container">
         <h1>The Aboutness Project</h1>
 
-        <div class="section-title">Bulk Load Data from Gist</div>
-        <div>
-            <input type="text" id="gist-id-input" placeholder="Enter Gist ID (e.g., 4b1cc62bdc88fb1558b320110780cda2)">
-            <button onclick="bulkLoadGist()" class="button-secondary">Load Gist Data</button>
-        </div>
+       
 
         <div class="section-title">Ask a Query</div>
         <textarea id="query-input" placeholder="Type your question here..."></textarea>
         <button onclick="queryBackend()">Submit Query</button>
+         <div class="section-title">Bulk Load Data from Gist</div>
+        <div>
+            <input type="text" id="gist-id-input" placeholder="Enter Gist ID (e.g., 4b1cc62bdc88fb1558b320110780cda2)">
+            <button onclick="bulkLoadGist()" class="button-secondary">Load Gist Data</button>
+        </div>
         
         <div id="response-area"></div>
         <div id="relevant-documents-area" class="relevant-documents-section" style="display: none;">
